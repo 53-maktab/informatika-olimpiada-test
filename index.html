@@ -678,18 +678,20 @@ function resetPw(row) {
 
 function drawSettings() {
   $('#tc').innerHTML = `<div class="card"><h3>Sinflar bo'yicha test sozlamalari</h3>
-    <p class="muted">"Test ochiq" o'chirilsa, o'quvchilar yangi test boshlay olmaydi (boshlab qo'ygani davom ettira oladi).
-    Vaqt 0 bo'lsa cheklov yo'q.</p>
-    <div class="tw"><table style="min-width:520px"><thead><tr><th>Sinf</th><th>Savollar</th><th>Test ochiq</th><th>Vaqt (daqiqa)</th><th></th></tr></thead><tbody>
-    ${TR.tests.map(t => `<tr data-g="${t.grade}"><td><b>${t.grade}-sinf</b></td><td>${t.questions} ta</td>
+    <p class="muted">Har bir o'quvchiga bankdan tasodifiy tanlangan savollar beriladi (har kimda har xil). Yangi son faqat keyin boshlanadigan testlarga ta'sir qiladi.
+    "Test ochiq" o'chirilsa, o'quvchilar yangi test boshlay olmaydi (boshlab qo'ygani davom ettira oladi). Vaqt 0 bo'lsa cheklov yo'q.</p>
+    <div class="tw"><table style="min-width:640px"><thead><tr><th>Sinf</th><th>Bankdagi savollar</th><th>Har bir o'quvchiga (ta)</th><th>Test ochiq</th><th>Vaqt (daqiqa)</th><th></th></tr></thead><tbody>
+    ${TR.tests.map(t => `<tr data-g="${t.grade}" data-bank="${t.questions}"><td><b>${t.grade}-sinf</b></td><td>${t.questions} ta</td>
+      <td><input type="number" class="qc" min="1" max="${t.questions}" value="${Math.min(t.question_count, t.questions)}" style="width:90px;margin:0;padding:6px 8px"></td>
       <td><input type="checkbox" class="op" ${t.is_open ? 'checked' : ''} style="width:20px;height:20px"></td>
       <td><input type="number" class="du" min="0" max="600" value="${t.duration_minutes}" style="width:100px;margin:0;padding:6px 8px"></td>
       <td><button class="btn sm primary">Saqlash</button></td></tr>`).join('')}</tbody></table></div></div>`;
   $$('#tc tbody button').forEach(b => b.onclick = async () => {
     const tr = b.closest('tr'), g = +tr.dataset.g;
-    const open = $('.op', tr).checked, dur = parseInt($('.du', tr).value, 10);
+    const open = $('.op', tr).checked, dur = parseInt($('.du', tr).value, 10), cnt = parseInt($('.qc', tr).value, 10), bank = +tr.dataset.bank;
     if (!(dur >= 0 && dur <= 600)) return toast('Vaqt 0 dan 600 gacha bo\'lsin', true);
-    try { await rpc('t_set_test', { p_token: S.token, p_grade: g, p_is_open: open, p_duration: dur }); await loadTeacherData(); toast(`${g}-sinf sozlamasi saqlandi`); }
+    if (!(cnt >= 1 && cnt <= bank)) return toast(`Savollar soni 1 dan ${bank} gacha bo'lsin`, true);
+    try { await rpc('t_set_test', { p_token: S.token, p_grade: g, p_is_open: open, p_duration: dur, p_count: cnt }); await loadTeacherData(); toast(`${g}-sinf sozlamasi saqlandi`); }
     catch (e) { toast(errMsg(e), true); }
   });
 }
