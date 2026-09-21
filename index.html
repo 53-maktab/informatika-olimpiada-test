@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Informatika testi</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%92%BB%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#f4f6fb; --card:#fff; --text:#1c2333; --muted:#65708a; --line:#e2e7f1;
+  --primary:#2f5bea; --primary-d:#2447c4; --primary-l:#e8eeff;
+  --ok:#15803d; --ok-l:#e3f6ea; --bad:#c62828; --bad-l:#fdeaea; --warn:#b45309; --warn-l:#fff3e0;
+  --shadow:0 1px 2px rgba(20,30,60,.06),0 4px 14px rgba(20,30,60,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#10141f; --card:#182033; --text:#e8ecf6; --muted:#9aa5c0; --line:#2a3550;
+    --primary:#6d8dff; --primary-d:#8aa4ff; --primary-l:#212c4f;
+    --ok:#4ade80; --ok-l:#143222; --bad:#ff8a8a; --bad-l:#3a1c22; --warn:#fbbf24; --warn-l:#3a2f14;
+    --shadow:0 1px 2px rgba(0,0,0,.4);}
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;font-size:16px}
+button,input,select{font:inherit;color:inherit}
+h1,h2,h3{margin:0 0 .4em;line-height:1.25}
+.wrap{max-width:860px;margin:0 auto;padding:16px}
+.wrap.wide{max-width:1180px}
+.topbar{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.topbar .in{max-width:1180px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+.brand{font-weight:700;display:flex;align-items:center;gap:8px}
+.brand small{color:var(--muted);font-weight:500}
+.who{display:flex;align-items:center;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.93rem}
+.who b{color:var(--text)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:20px;margin-bottom:16px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 16px;cursor:pointer;font-weight:600;transition:.15s}
+.btn:hover{border-color:var(--primary);color:var(--primary)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.primary{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.primary:hover{background:var(--primary-d);color:#fff}
+.btn.danger{color:var(--bad)}
+.btn.sm{padding:5px 10px;font-size:.85rem;border-radius:8px}
+.btn.lg{padding:13px 26px;font-size:1.05rem}
+label.f{display:block;margin-bottom:14px;font-weight:600;font-size:.93rem}
+input[type=text],input[type=password],input[type=number],input[type=search],select{width:100%;margin-top:5px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);outline:none}
+input:focus,select:focus{border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-l)}
+.err{color:var(--bad);font-size:.92rem;min-height:1.3em;margin:4px 0}
+.muted{color:var(--muted)}
+.center{text-align:center}
+/* login */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+.login .card{width:100%;max-width:400px;padding:28px}
+.login .logo{font-size:2.4rem;text-align:center}
+.pwrow{position:relative}
+.pwrow .eye{position:absolute;right:6px;top:9px;border:0;background:none;cursor:pointer;padding:6px;color:var(--muted)}
+.status{font-size:.8rem;text-align:center;margin-top:14px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--muted);margin-right:6px}
+.dot.on{background:var(--ok)} .dot.off{background:var(--bad)}
+.notice{background:var(--warn-l);color:var(--warn);border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:.93rem}
+/* home */
+.kv{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0 16px;color:var(--muted)}
+.kv span b{color:var(--text)}
+.big{font-size:3rem;font-weight:800;line-height:1}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-size:.8rem;font-weight:700}
+.pill.ok{background:var(--ok-l);color:var(--ok)} .pill.bad{background:var(--bad-l);color:var(--bad)}
+.pill.warn{background:var(--warn-l);color:var(--warn)} .pill.gray{background:var(--line);color:var(--muted)}
+/* test */
+.timer{font-variant-numeric:tabular-nums;font-weight:700;padding:5px 12px;border-radius:99px;background:var(--primary-l);color:var(--primary)}
+.timer.low{background:var(--bad-l);color:var(--bad)}
+.progress{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:4px 0 8px}
+.progress>div{height:100%;background:var(--primary);transition:width .2s}
+.qmeta{color:var(--muted);font-size:.9rem;margin-bottom:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.qtext{font-size:1.2rem;margin-bottom:16px;white-space:pre-wrap}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;padding:13px 14px;border:2px solid var(--line);background:var(--card);border-radius:12px;cursor:pointer;transition:.12s}
+.opt:hover{border-color:var(--primary)}
+.opt.sel{border-color:var(--primary);background:var(--primary-l)}
+.badge{flex:none;width:28px;height:28px;border-radius:50%;background:var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem}
+.opt.sel .badge{background:var(--primary);color:#fff}
+.nav{display:flex;justify-content:space-between;gap:10px;margin:4px 0 16px}
+.grid{display:flex;flex-wrap:wrap;gap:8px}
+.qn{width:40px;height:40px;border-radius:10px;border:2px solid var(--line);background:var(--card);cursor:pointer;font-weight:600}
+.qn.done{background:var(--primary-l);border-color:var(--primary-l);color:var(--primary)}
+.qn.cur{border-color:var(--primary);background:var(--primary);color:#fff}
+/* review */
+.summary{display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+.ring{--p:0;width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--primary) calc(var(--p)*1%),var(--line) 0);display:flex;align-items:center;justify-content:center;flex:none}
+.ring>div{width:82px;height:82px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 14px;cursor:pointer;font-weight:600;font-size:.9rem}
+.chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.rq{border-left:5px solid var(--line)}
+.rq.good{border-left-color:var(--ok)} .rq.wrong{border-left-color:var(--bad)} .rq.skip{border-left-color:var(--warn)}
+.rq .qh{font-weight:700;margin-bottom:10px;white-space:pre-wrap}
+.ro{display:flex;gap:10px;align-items:flex-start;padding:9px 12px;border-radius:10px;border:1px solid var(--line);margin-bottom:7px}
+.ro .badge{width:24px;height:24px;font-size:.78rem}
+.ro.correct{background:var(--ok-l);border-color:var(--ok)}
+.ro.mine-bad{background:var(--bad-l);border-color:var(--bad)}
+.ro .tag{margin-left:auto;font-size:.78rem;font-weight:700;white-space:nowrap;padding-left:8px}
+.ro.correct .tag{color:var(--ok)} .ro.mine-bad .tag{color:var(--bad)}
+/* teacher */
+.tabs{display:flex;gap:6px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.tab{border:0;background:none;padding:10px 16px;cursor:pointer;font-weight:700;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--primary);border-bottom-color:var(--primary)}
+.toolbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px;align-items:end}
+.toolbar label{font-size:.8rem;font-weight:700;color:var(--muted)}
+.toolbar select,.toolbar input{margin-top:3px;padding:8px 10px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;min-width:120px}
+.stat b{display:block;font-size:1.4rem}
+.stat span{font-size:.8rem;color:var(--muted)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:900px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--line);font-size:.92rem;white-space:nowrap}
+th{background:var(--bg);font-size:.78rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);position:sticky;top:0}
+th.s{cursor:pointer;user-select:none} th.s:hover{color:var(--primary)}
+tr:last-child td{border-bottom:0}
+.act{display:flex;gap:6px}
+.score{font-weight:800}
+.score.hi{color:var(--ok)} .score.mid{color:var(--warn)} .score.lo{color:var(--bad)}
+/* modal & toast */
+.ov{position:fixed;inset:0;background:rgba(10,15,30,.55);display:flex;align-items:center;justify-content:center;padding:16px;z-index:50}
+.md{background:var(--card);border-radius:16px;padding:22px;max-width:440px;width:100%;box-shadow:0 20px 50px rgba(0,0,0,.35);max-height:90vh;overflow:auto}
+.md .btns{display:flex;justify-content:flex-end;gap:10px;margin-top:14px;flex-wrap:wrap}
+#toasts{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:60;display:grid;gap:8px;width:min(92vw,420px)}
+.toast{background:#1c2333;color:#fff;padding:11px 16px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.3);font-size:.93rem}
+.toast.bad{background:#b3261e}
+.pwbox{font-family:ui-monospace,Consolas,monospace;font-size:1.5rem;font-weight:800;background:var(--primary-l);color:var(--primary);padding:12px;border-radius:10px;text-align:center;letter-spacing:.06em;margin:10px 0;user-select:all}
+@media (max-width:560px){.wrap{padding:12px}.card{padding:16px}.big{font-size:2.4rem}.qtext{font-size:1.08rem}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toasts"></div>
+<script>
+'use strict';
+/* ====== SOZLAMA ====== */
+const SUPABASE_URL = 'https://ddwgbvnnvhucfpmpxxdq.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_zhcOzwMc7fluE4PiwewdOQ_7jv7aTsl';
+
+/* ====== YORDAMCHILAR ====== */
+const app = document.getElementById('app');
+const LET = ['A', 'B', 'C', 'D', 'E', 'F'];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const ERR = {
+  network: "Server bilan aloqa yo'q. Internetni tekshirib, qayta urinib ko'ring.",
+  not_authenticated: 'Sessiya tugagan. Iltimos, qaytadan kiring.',
+  forbidden: "Bu amal uchun ruxsat yo'q.",
+  already_submitted: 'Siz bu testni allaqachon topshirgansiz.',
+  test_closed: "Test hozircha yopiq. O'qituvchingizga murojaat qiling.",
+  no_active_attempt: 'Faol test topilmadi.',
+  no_result: "Natija hali mavjud emas.",
+  password_too_short: 'Parol juda qisqa.',
+  wrong_password: "Eski parol noto'g'ri.",
+  not_found: 'Topilmadi.',
+  bad_request: "So'rov noto'g'ri."
+};
+const errMsg = e => ERR[e && e.message] || ('Xatolik: ' + (e && e.message || "noma'lum"));
+class ApiError extends Error {}
+
+async function rpc(fn, params = {}) {
+  let res;
+  try {
+    res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+      method: 'POST',
+      headers: { apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+      body: JSON.stringify(params)
+    });
+  } catch (e) { throw new ApiError('network'); }
+  let data = null;
+  try { data = await res.json(); } catch (e) { /* bo'sh javob */ }
+  if (!res.ok) {
+    const m = (data && data.message) || ('http_' + res.status);
+    if (m === 'not_authenticated' && S.token) sessionExpired();
+    throw new ApiError(m);
+  }
+  return data;
+}
+
+function toast(text, bad) {
+  const t = document.createElement('div');
+  t.className = 'toast' + (bad ? ' bad' : '');
+  t.textContent = text;
+  $('#toasts').appendChild(t);
+  setTimeout(() => t.remove(), bad ? 6000 : 3500);
+}
+
+function openModal(html) {
+  const ov = document.createElement('div');
+  ov.className = 'ov';
+  ov.innerHTML = `<div class="md" role="dialog" aria-modal="true">${html}</div>`;
+  document.body.appendChild(ov);
+  const close = () => { ov.remove(); document.removeEventListener('keydown', onKey); };
+  const onKey = ev => { if (ev.key === 'Escape') { close(); if (ov._onEsc) ov._onEsc(); } };
+  document.addEventListener('keydown', onKey);
+  return { el: ov, close, root: $('.md', ov), onEsc: f => { ov._onEsc = f; } };
+}
+
+function confirmModal({ title, body, ok = 'Ha', cancel = 'Bekor qilish', danger = false }) {
+  return new Promise(resolve => {
+    const m = openModal(`<h3>${esc(title)}</h3><div>${body}</div>
+      <div class="btns"><button class="btn" data-x="no">${esc(cancel)}</button>
+      <button class="btn ${danger ? 'danger' : 'primary'}" data-x="yes">${esc(ok)}</button></div>`);
+    m.onEsc(() => resolve(false));
+    m.root.addEventListener('click', ev => {
+      const x = ev.target.closest('[data-x]'); if (!x) return;
+      m.close(); resolve(x.dataset.x === 'yes');
+    });
+  });
+}
+
+function fmtDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso), p = n => String(n).padStart(2, '0');
+  return `${p(d.getDate())}.${p(d.getMonth() + 1)}.${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}`;
+}
+const pct = (s, t) => (t ? Math.round((s / t) * 100) : 0);
+const scoreCls = p => (p >= 80 ? 'hi' : p >= 55 ? 'mid' : 'lo');
+function genPw(n = 6) {
+  const a = 'abcdefghjkmnpqrstuvwxyz23456789'; const b = new Uint32Array(n); crypto.getRandomValues(b);
+  return Array.from(b, x => a[x % a.length]).join('');
+}
+
+/* ====== HOLAT ====== */
+const S = { token: sessionStorage.getItem('tok') || null, user: null };
+let T = null;            // faol test holati
+let timerId = null;
+function stopTimer() { if (timerId) { clearInterval(timerId); timerId = null; } }
+function clearSession() {
+  S.token = null; S.user = null; T = null; stopTimer();
+  window.onbeforeunload = null;
+  sessionStorage.removeItem('tok');
+}
+function sessionExpired() {
+  clearSession(); showLogin('Sessiya tugadi. Iltimos, qaytadan kiring.');
+}
+async function logout() {
+  const t = S.token; clearSession();
+  try { if (t) await rpc('app_logout', { p_token: t }); } catch (e) { /* e'tibor bermaymiz */ }
+  showLogin();
+}
+function topbar(rightHtml) {
+  return `<div class="topbar"><div class="in">
+    <div class="brand">💻 Informatika testi <small>· 53-maktab</small></div>
+    <div class="who">${rightHtml}</div></div></div>`;
+}
+
+/* ====== KIRISH ====== */
+function showLogin(notice) {
+  stopTimer();
+  app.innerHTML = `<div class="login"><div class="card">
+    <div class="logo">💻</div>
+    <h1 class="center">Informatika testi</h1>
+    <p class="center muted" style="margin-top:0">Login va parolingizni kiriting</p>
+    ${notice ? `<div class="notice">${esc(notice)}</div>` : ''}
+    <form id="lf" autocomplete="off">
+      <label class="f">Login
+        <input type="text" id="u" autocapitalize="none" autocorrect="off" spellcheck="false" required autofocus></label>
+      <label class="f">Parol
+        <div class="pwrow"><input type="password" id="p" autocapitalize="none" autocorrect="off" spellcheck="false" required>
+        <button type="button" class="eye" id="eye" aria-label="Parolni ko'rsatish">👁</button></div></label>
+      <div class="err" id="le"></div>
+      <button class="btn primary lg" style="width:100%" id="lb">Kirish</button>
+    </form>
+    <div class="status muted" id="st"><span class="dot"></span>Server tekshirilmoqda…</div>
+  </div></div>`;
+  $('#eye').onclick = () => { const p = $('#p'); p.type = p.type === 'password' ? 'text' : 'password'; };
+  $('#lf').onsubmit = async ev => {
+    ev.preventDefault();
+    const u = $('#u').value.trim(), p = $('#p').value, btn = $('#lb'), le = $('#le');
+    le.textContent = ''; btn.disabled = true; btn.textContent = 'Kirilmoqda…';
+    try {
+      const r = await rpc('app_login', { p_username: u, p_password: p });
+      if (!r.ok) {
+        le.textContent = r.error === 'locked'
+          ? `Ko'p marta xato kiritildi. ${r.minutes} daqiqadan keyin urinib ko'ring yoki o'qituvchiga murojaat qiling.`
+          : "Login yoki parol noto'g'ri.";
+        return;
+      }
+      S.token = r.token; sessionStorage.setItem('tok', r.token);
+      S.user = await rpc('app_me', { p_token: S.token });
+      route();
+    } catch (e) { le.textContent = errMsg(e); }
+    finally { const b = $('#lb'); if (b) { b.disabled = false; b.textContent = 'Kirish'; } }
+  };
+  rpc('app_ping').then(() => {
+    const s = $('#st'); if (s) s.innerHTML = '<span class="dot on"></span>Server bilan aloqa bor';
+  }).catch(() => {
+    const s = $('#st'); if (s) s.innerHTML = "<span class=\"dot off\"></span>Server bilan aloqa yo'q";
+  });
+}
+
+function route() {
+  if (!S.user) return showLogin();
+  if (S.user.role === 'teacher') return showTeacher();
+  return showStudentHome();
+}
+
+async function init() {
+  if (S.token) {
+    try { S.user = await rpc('app_me', { p_token: S.token }); return route(); }
+    catch (e) { clearSession(); }
+  }
+  showLogin();
+}
+
+/* ====== O'QUVCHI: BOSH SAHIFA ====== */
+async function refreshMe() { S.user = await rpc('app_me', { p_token: S.token }); }
+
+function showStudentHome() {
+  stopTimer(); T = null; window.onbeforeunload = null;
+  const u = S.user, a = u.attempt, t = u.test;
+  const grp = u.grp ? ` · ${u.grp}-guruh` : '';
+  let body;
+  if (a && a.status === 'submitted') {
+    const p = pct(a.score, a.total);
+    body = `<div class="summary">
+        <div class="ring" style="--p:${p}"><div>${p}%</div></div>
+        <div><div class="muted">Sizning natijangiz</div>
+        <div class="big">${a.score} <span class="muted" style="font-size:1.4rem">/ ${a.total}</span></div>
+        <div class="muted" style="margin-top:6px">Topshirilgan: ${fmtDate(a.submitted_at)}
+        ${a.late ? '<span class="pill warn">vaqtdan kech</span>' : ''}</div></div></div>
+      <p class="muted">Testni qayta topshirish uchun o'qituvchidan ruxsat so'rang.</p>
+      <button class="btn primary lg" id="seeres">Javoblarimni ko'rish</button>`;
+  } else if (a && a.status === 'in_progress') {
+    body = `<p>Siz testni boshlagansiz, lekin hali yakunlamagansiz.</p>
+      <button class="btn primary lg" id="go">Testni davom ettirish</button>`;
+  } else if (!t.is_open) {
+    body = `<p><span class="pill gray">Test yopiq</span></p>
+      <p class="muted">Test hozircha ochiq emas. O'qituvchingiz ruxsat bergach, shu yerdan boshlashingiz mumkin.</p>`;
+  } else {
+    body = `<div class="kv"><span>Savollar soni: <b>${t.questions} ta</b></span>
+        <span>Vaqt: <b>${t.duration_minutes > 0 ? t.duration_minutes + ' daqiqa' : 'cheklanmagan'}</b></span></div>
+      <p class="muted">Testni faqat bir marta topshirish mumkin. Boshlashdan oldin tayyor ekanligingizga ishonch hosil qiling.</p>
+      <button class="btn primary lg" id="go">Testni boshlash</button>`;
+  }
+  app.innerHTML = `${topbar(`<span><b>${esc(u.full_name)}</b> · ${esc(u.class_name)}${grp}</span><button class="btn sm" id="lo">Chiqish</button>`)}
+    <main class="wrap"><div class="card"><h2>Salom, ${esc(u.full_name.split(' ')[1] || u.full_name)}! 👋</h2>
+    <div class="muted" style="margin-bottom:14px">${esc(u.class_name)} sinf · Informatika fanidan test</div>${body}</div></main>`;
+  $('#lo').onclick = logout;
+  const go = $('#go');
+  if (go) go.onclick = async () => {
+    if (!(a && a.status === 'in_progress')) {
+      const yes = await confirmModal({ title: 'Testni boshlaysizmi?',
+        body: `<p>${t.duration_minutes > 0 ? `Sizga <b>${t.duration_minutes} daqiqa</b> beriladi. ` : ''}Boshlagach testni faqat bir marta topshirasiz.</p>`,
+        ok: 'Boshlash', cancel: 'Hozir emas' });
+      if (!yes) return;
+    }
+    startTest();
+  };
+  const sr = $('#seeres'); if (sr) sr.onclick = showResult;
+}
+
+/* ====== O'QUVCHI: TEST ====== */
+function mulberry32(a) {
+  return function () {
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+function shuffled(arr, seed) {
+  const r = mulberry32(seed), a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+async function startTest() {
+  try {
+    const d = await rpc('app_start_test', { p_token: S.token });
+    beginTest(d);
+  } catch (e) {
+    toast(errMsg(e), true);
+    try { await refreshMe(); showStudentHome(); } catch (_) { /* sessiya tugagan bo'lishi mumkin */ }
+  }
+}
+
+function beginTest(d) {
+  const key = 'ans_' + d.attempt_id;
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(key) || '{}') || {}; } catch (e) { saved = {}; }
+  const qs = shuffled(d.questions, d.attempt_id * 7919 + 13);
+  const valid = new Set(qs.map(q => String(q.id)));
+  const answers = {};
+  Object.keys(saved).forEach(k => { if (valid.has(k) && Number.isInteger(saved[k])) answers[k] = saved[k]; });
+  const offset = Date.parse(d.server_now) - Date.now();
+  T = { attemptId: d.attempt_id, key, qs, answers, i: 0, submitting: false,
+        deadline: d.duration_minutes > 0 ? Date.parse(d.started_at) + d.duration_minutes * 60000 : null, offset };
+  window.onbeforeunload = () => 'Test yakunlanmagan!';
+  renderTest();
+  stopTimer();
+  if (T.deadline) { tick(); timerId = setInterval(tick, 500); }
+}
+
+function tick() {
+  if (!T || !T.deadline) return;
+  const left = T.deadline - (Date.now() + T.offset);
+  const el = $('#timer');
+  if (left <= 0) {
+    stopTimer(); if (el) el.textContent = '00:00';
+    if (!T.expired) { T.expired = true; toast('Vaqt tugadi. Javoblar yuborilmoqda…', true); finishTest(true); }
+    return;
+  }
+  const s = Math.ceil(left / 1000), h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), sec = s % 60;
+  const p = n => String(n).padStart(2, '0');
+  if (el) { el.textContent = (h ? h + ':' : '') + p(m) + ':' + p(sec); el.classList.toggle('low', s <= 60); }
+}
+
+function saveLocal() { try { localStorage.setItem(T.key, JSON.stringify(T.answers)); } catch (e) { /* xotira to'la */ } }
+
+function renderTest() {
+  const q = T.qs[T.i], n = T.qs.length, done = Object.keys(T.answers).length;
+  const last = T.i === n - 1;
+  app.innerHTML = `${topbar(`<span><b>${esc(S.user.full_name)}</b> · ${esc(S.user.class_name)}</span>${T.deadline ? '<span class="timer" id="timer">…</span>' : ''}`)}
+    <main class="wrap">
+      <div class="progress"><div style="width:${(done / n) * 100}%"></div></div>
+      <div class="qmeta"><span>Savol <b>${T.i + 1}</b> / ${n}</span><span>Javob berilgan: <b>${done}</b> / ${n}</span></div>
+      <div class="card"><h2 class="qtext">${esc(q.question)}</h2>
+        <div class="opts" role="radiogroup">${q.options.map((o, k) => `
+          <button class="opt ${T.answers[q.id] === k ? 'sel' : ''}" role="radio" aria-checked="${T.answers[q.id] === k}" data-k="${k}">
+            <span class="badge">${LET[k]}</span><span>${esc(o)}</span></button>`).join('')}</div></div>
+      <div class="nav">
+        <button class="btn" id="prev" ${T.i === 0 ? 'disabled' : ''}>← Oldingi</button>
+        ${last ? '<button class="btn primary" id="fin2">Yakunlash ✓</button>' : '<button class="btn primary" id="next">Keyingi →</button>'}
+      </div>
+      <div class="card"><div class="muted" style="margin-bottom:10px;font-size:.9rem">Savollar ro'yxati (o'tish uchun bosing)</div>
+        <div class="grid">${T.qs.map((x, j) => `<button class="qn ${j === T.i ? 'cur' : ''} ${T.answers[x.id] !== undefined && j !== T.i ? 'done' : ''}" data-j="${j}">${j + 1}</button>`).join('')}</div></div>
+      <div class="center" style="margin:6px 0 30px"><button class="btn" id="finish">Testni yakunlash</button></div>
+    </main>`;
+  $$('.opt').forEach(b => b.onclick = () => { T.answers[q.id] = +b.dataset.k; saveLocal(); renderTest(); });
+  $$('.qn').forEach(b => b.onclick = () => { T.i = +b.dataset.j; renderTest(); window.scrollTo(0, 0); });
+  const pv = $('#prev'), nx = $('#next');
+  if (pv) pv.onclick = () => { T.i--; renderTest(); window.scrollTo(0, 0); };
+  if (nx) nx.onclick = () => { T.i++; renderTest(); window.scrollTo(0, 0); };
+  $('#finish').onclick = () => finishTest(false);
+  const f2 = $('#fin2'); if (f2) f2.onclick = () => finishTest(false);
+  tick();
+}
+
+async function finishTest(auto) {
+  if (!T || T.submitting) return;
+  const left = T.qs.length - Object.keys(T.answers).length;
+  if (!auto) {
+    const yes = await confirmModal({ title: 'Testni yakunlaysizmi?',
+      body: `<p>${left ? `Javob berilmagan savollar: <b>${left} ta</b>. ` : 'Barcha savollarga javob berdingiz. '}Yakunlagach javoblarni o'zgartirib bo'lmaydi.</p>`,
+      ok: 'Ha, yakunlash', cancel: 'Yo\'q, davom etaman' });
+    if (!yes) return;
+  }
+  T.submitting = true;
+  app.querySelectorAll('button').forEach(b => b.disabled = true);
+  try {
+    await rpc('app_submit_test', { p_token: S.token, p_answers: T.answers });
+    try { localStorage.removeItem(T.key); } catch (e) { /* ok */ }
+    stopTimer(); window.onbeforeunload = null; T = null;
+    try { await refreshMe(); } catch (e) { /* ok */ }
+    showResult();
+  } catch (e) {
+    if (e.message === 'already_submitted' || e.message === 'no_active_attempt') {
+      stopTimer(); window.onbeforeunload = null; T = null;
+      toast(errMsg(e), true); try { await refreshMe(); } catch (_) { /* ok */ } showStudentHome(); return;
+    }
+    T.submitting = false; renderTest();
+    toast(errMsg(e) + ' Javoblaringiz saqlangan.', true);
+    if (auto) setTimeout(() => { if (T) finishTest(true); }, 4000);
+  }
+}
+
+/* ====== NATIJA VA XATOLAR TAHLILI ====== */
+async function showResult() {
+  try {
+    const r = await rpc('app_get_result', { p_token: S.token });
+    renderReview(r, { teacher: false });
+  } catch (e) { toast(errMsg(e), true); try { await refreshMe(); } catch (_) { /* ok */ } showStudentHome(); }
+}
+
+function renderReview(r, opt) {
+  let filter = 'all';
+  const p = pct(r.score, r.total), wrong = r.review.filter(x => x.chosen !== null && !x.is_correct).length;
+  const skipped = r.review.filter(x => x.chosen === null).length;
+  const right = r.review.filter(x => x.is_correct).length;
+  const bar = opt.teacher
+    ? topbar(`<span><b>${esc(S.user.full_name)}</b></span><button class="btn sm" id="back">← Natijalar jadvali</button>`)
+    : topbar(`<span><b>${esc(S.user.full_name)}</b> · ${esc(S.user.class_name)}</span><button class="btn sm" id="back">← Bosh sahifa</button><button class="btn sm" id="lo">Chiqish</button>`);
+  app.innerHTML = `${bar}<main class="wrap">
+    <div class="card"><div class="summary">
+      <div class="ring" style="--p:${p}"><div>${p}%</div></div>
+      <div>${opt.teacher ? `<div class="muted">${esc(r.full_name)} · ${esc(r.class_name)}</div>` : '<div class="muted">Sizning natijangiz</div>'}
+        <div class="big">${r.score} <span class="muted" style="font-size:1.4rem">/ ${r.total}</span></div>
+        <div style="margin-top:8px"><span class="pill ok">To'g'ri: ${right}</span> <span class="pill bad">Xato: ${wrong}</span>
+        ${skipped ? `<span class="pill warn">Javobsiz: ${skipped}</span>` : ''}
+        ${r.late ? '<span class="pill warn">vaqtdan kech</span>' : ''}</div>
+        <div class="muted" style="margin-top:6px;font-size:.9rem">Topshirilgan: ${fmtDate(r.submitted_at)}</div></div></div></div>
+    <div class="chips" id="chips">
+      <button class="chip on" data-f="all">Hammasi (${r.review.length})</button>
+      <button class="chip" data-f="wrong">Xatolar (${wrong + skipped})</button>
+      <button class="chip" data-f="good">To'g'ri (${right})</button></div>
+    <div id="list"></div></main>`;
+  $('#back').onclick = () => (opt.teacher ? showTeacher(true) : showStudentHome());
+  const lo = $('#lo'); if (lo) lo.onclick = logout;
+  const draw = () => {
+    const items = r.review.filter(x => filter === 'all' || (filter === 'good' ? x.is_correct : !x.is_correct));
+    $('#list').innerHTML = items.length ? items.map(x => {
+      const cls = x.is_correct ? 'good' : x.chosen === null ? 'skip' : 'wrong';
+      return `<div class="card rq ${cls}"><div class="qh">${x.num}. ${esc(x.question)}</div>
+        ${x.options.map((o, k) => {
+          const isC = k === x.correct, isM = k === x.chosen;
+          const c = isC ? 'correct' : (isM ? 'mine-bad' : '');
+          const tag = isC && isM ? "✓ Sizning javobingiz (to'g'ri)" : isC ? "✓ To'g'ri javob" : isM ? '✗ Sizning javobingiz' : '';
+          return `<div class="ro ${c}"><span class="badge">${LET[k]}</span><span>${esc(o)}</span>${tag ? `<span class="tag">${tag}</span>` : ''}</div>`;
+        }).join('')}
+        ${x.chosen === null ? '<div class="muted" style="font-size:.88rem;margin-top:4px">Bu savolga javob berilmagan.</div>' : ''}</div>`;
+    }).join('') : '<div class="card center muted">Bu bo\'limda savollar yo\'q 🎉</div>';
+  };
+  $$('#chips .chip').forEach(b => b.onclick = () => {
+    filter = b.dataset.f; $$('#chips .chip').forEach(x => x.classList.toggle('on', x === b)); draw();
+  });
+  draw(); window.scrollTo(0, 0);
+}
+
+/* ====== O'QITUVCHI PANELI ====== */
+const TR = { rows: [], tests: [], tab: 'res', f: { cls: '', grp: '', st: '', q: '' }, sort: { k: '', d: 1 } };
+
+async function showTeacher(keepState) {
+  stopTimer();
+  app.innerHTML = `${topbar(`<span><b>${esc(S.user.full_name)}</b></span>
+    <button class="btn sm" id="chpw">Parolni o'zgartirish</button><button class="btn sm" id="lo">Chiqish</button>`)}
+    <main class="wrap wide"><div class="tabs">
+      <button class="tab" data-t="res">📊 Natijalar</button><button class="tab" data-t="set">⚙️ Test sozlamalari</button></div>
+      <div id="tc"><div class="card center muted">Yuklanmoqda…</div></div></main>`;
+  $('#lo').onclick = logout; $('#chpw').onclick = changeMyPassword;
+  $$('.tab').forEach(b => b.onclick = () => { TR.tab = b.dataset.t; drawTeacherTab(); });
+  if (!keepState) TR.f = { cls: '', grp: '', st: '', q: '' };
+  try { await loadTeacherData(); } catch (e) { $('#tc').innerHTML = `<div class="card err">${esc(errMsg(e))}</div>`; return; }
+  drawTeacherTab();
+}
+
+async function loadTeacherData() {
+  const [rows, tests] = await Promise.all([rpc('t_results', { p_token: S.token }), rpc('t_get_tests', { p_token: S.token })]);
+  TR.rows = rows; TR.tests = tests;
+}
+
+function drawTeacherTab() {
+  $$('.tab').forEach(b => b.classList.toggle('on', b.dataset.t === TR.tab));
+  if (TR.tab === 'set') drawSettings(); else drawResults();
+}
+
+function filteredRows() {
+  const f = TR.f, q = f.q.trim().toLowerCase();
+  let rows = TR.rows.filter(r =>
+    (!f.cls || r.class_name === f.cls) &&
+    (!f.grp || String(r.grp) === f.grp) &&
+    (!f.st || r.status === f.st) &&
+    (!q || r.full_name.toLowerCase().includes(q) || r.username.includes(q)));
+  const k = TR.sort.k, d = TR.sort.d;
+  if (k) rows = rows.slice().sort((a, b) => {
+    let x, y;
+    if (k === 'name') { x = a.full_name.toLowerCase(); y = b.full_name.toLowerCase(); }
+    else if (k === 'score') { x = a.status === 'submitted' ? pct(a.score, a.total) : -1; y = b.status === 'submitted' ? pct(b.score, b.total) : -1; }
+    else if (k === 'date') { x = a.submitted_at || ''; y = b.submitted_at || ''; }
+    else { x = a.class_name + (a.grp || 0); y = b.class_name + (b.grp || 0); }
+    return (x < y ? -1 : x > y ? 1 : 0) * d;
+  });
+  return rows;
+}
+
+const STATUS = {
+  submitted: '<span class="pill ok">Topshirgan</span>',
+  in_progress: '<span class="pill warn">Jarayonda</span>',
+  not_started: '<span class="pill gray">Topshirmagan</span>'
+};
+
+function drawResults() {
+  const classes = [...new Set(TR.rows.map(r => r.class_name))];
+  const f = TR.f;
+  $('#tc').innerHTML = `
+    <div class="toolbar">
+      <div><label>Sinf</label><select id="fc"><option value="">Hammasi</option>${classes.map(c => `<option ${f.cls === c ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
+      <div><label>Guruh</label><select id="fg"><option value="">Hammasi</option><option value="1" ${f.grp === '1' ? 'selected' : ''}>1-guruh</option><option value="2" ${f.grp === '2' ? 'selected' : ''}>2-guruh</option></select></div>
+      <div><label>Holat</label><select id="fs"><option value="">Hammasi</option>
+        <option value="submitted" ${f.st === 'submitted' ? 'selected' : ''}>Topshirgan</option>
+        <option value="in_progress" ${f.st === 'in_progress' ? 'selected' : ''}>Jarayonda</option>
+        <option value="not_started" ${f.st === 'not_started' ? 'selected' : ''}>Topshirmagan</option></select></div>
+      <div style="grid-column:span 2"><label>Qidirish (ism yoki login)</label><input type="search" id="fq" value="${esc(f.q)}" placeholder="Masalan: Abdiev"></div>
+      <div style="display:flex;gap:8px"><button class="btn" id="rf">↻ Yangilash</button><button class="btn" id="csv">⬇ CSV</button></div>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="tw"><table><thead><tr>
+      <th>№</th><th class="s" data-k="name">F.I.SH ↕</th><th class="s" data-k="class">Sinf / guruh ↕</th><th>Login</th><th>Holat</th>
+      <th class="s" data-k="score">Ball ↕</th><th>%</th><th class="s" data-k="date">Topshirilgan ↕</th><th>Amallar</th></tr></thead>
+      <tbody id="tb"></tbody></table></div>
+    <p class="muted" style="font-size:.85rem">CSV fayl Excel'da ochiladi (nuqta-vergul bilan ajratilgan).</p>`;
+  $('#fc').onchange = e => { TR.f.cls = e.target.value; drawRows(); };
+  $('#fg').onchange = e => { TR.f.grp = e.target.value; drawRows(); };
+  $('#fs').onchange = e => { TR.f.st = e.target.value; drawRows(); };
+  $('#fq').oninput = e => { TR.f.q = e.target.value; drawRows(); };
+  $('#rf').onclick = async () => { try { await loadTeacherData(); drawRows(); toast('Yangilandi'); } catch (e) { toast(errMsg(e), true); } };
+  $('#csv').onclick = exportCsv;
+  $$('th.s').forEach(th => th.onclick = () => {
+    const k = th.dataset.k; TR.sort = { k, d: TR.sort.k === k ? -TR.sort.d : 1 }; drawRows();
+  });
+  drawRows();
+}
+
+function drawRows() {
+  const rows = filteredRows();
+  const done = rows.filter(r => r.status === 'submitted');
+  const avg = done.length ? Math.round(done.reduce((s, r) => s + pct(r.score, r.total), 0) / done.length) : null;
+  const best = done.length ? Math.max(...done.map(r => pct(r.score, r.total))) : null;
+  $('#stats').innerHTML = `
+    <div class="stat"><b>${rows.length}</b><span>Ro'yxatda</span></div>
+    <div class="stat"><b>${done.length}</b><span>Topshirgan</span></div>
+    <div class="stat"><b>${rows.length - done.length}</b><span>Topshirmagan</span></div>
+    <div class="stat"><b>${avg === null ? '—' : avg + '%'}</b><span>O'rtacha natija</span></div>
+    <div class="stat"><b>${best === null ? '—' : best + '%'}</b><span>Eng yuqori</span></div>`;
+  $('#tb').innerHTML = rows.length ? rows.map((r, i) => {
+    const p = pct(r.score, r.total), sub = r.status === 'submitted';
+    return `<tr data-id="${r.id}"><td>${i + 1}</td><td><b>${esc(r.full_name)}</b></td><td>${esc(r.class_name)}${r.grp ? ' · ' + r.grp + '-guruh' : ''}</td><td><code>${esc(r.username)}</code></td>
+      <td>${STATUS[r.status]}${r.late ? ' <span class="pill warn">kech</span>' : ''}${r.attempts > 1 ? ` <span class="muted" title="Urinishlar soni">×${r.attempts}</span>` : ''}</td>
+      <td>${sub ? `<span class="score ${scoreCls(p)}">${r.score}/${r.total}</span>` : '—'}</td>
+      <td>${sub ? p + '%' : '—'}</td><td>${fmtDate(r.submitted_at)}</td>
+      <td><div class="act">${sub ? '<button class="btn sm" data-a="view">Javoblar</button>' : ''}
+        ${r.status !== 'not_started' ? '<button class="btn sm" data-a="reopen">Qayta ochish</button>' : ''}
+        <button class="btn sm" data-a="pw">Parol</button></div></td></tr>`;
+  }).join('') : '<tr><td colspan="9" class="center muted" style="padding:24px">Hech narsa topilmadi</td></tr>';
+  $$('#tb button').forEach(b => b.onclick = () => {
+    const id = b.closest('tr').dataset.id, row = TR.rows.find(x => x.id === id);
+    if (b.dataset.a === 'view') viewStudent(row);
+    else if (b.dataset.a === 'reopen') reopen(row);
+    else resetPw(row);
+  });
+}
+
+async function viewStudent(row) {
+  try {
+    const r = await rpc('t_student_review', { p_token: S.token, p_user: row.id });
+    renderReview(r, { teacher: true });
+  } catch (e) { toast(errMsg(e), true); }
+}
+
+async function reopen(row) {
+  const yes = await confirmModal({ title: 'Testni qayta ochasizmi?',
+    body: `<p><b>${esc(row.full_name)}</b> (${esc(row.class_name)}) testni qaytadan topshira oladi.
+      ${row.status === 'submitted' ? `Joriy natija (<b>${row.score}/${row.total}</b>) jadvaldan olib tashlanadi, lekin urinishlar tarixida saqlanadi.` : 'Boshlangan test bekor qilinadi.'}</p>`,
+    ok: 'Qayta ochish', cancel: 'Bekor qilish', danger: true });
+  if (!yes) return;
+  try { await rpc('t_reopen', { p_token: S.token, p_user: row.id }); await loadTeacherData(); drawRows(); toast('Test qayta ochildi'); }
+  catch (e) { toast(errMsg(e), true); }
+}
+
+function resetPw(row) {
+  const m = openModal(`<h3>Parolni o'zgartirish</h3>
+    <p><b>${esc(row.full_name)}</b> · ${esc(row.class_name)}<br><span class="muted">Login: <code>${esc(row.username)}</code></span></p>
+    <label class="f">Yangi parol (kamida 4 belgi)<input type="text" id="np" value="${genPw()}" autocomplete="off" spellcheck="false"></label>
+    <div class="err" id="me"></div>
+    <div class="btns"><button class="btn" data-x="no">Bekor qilish</button><button class="btn primary" data-x="yes">Saqlash</button></div>`);
+  m.root.addEventListener('click', async ev => {
+    const x = ev.target.closest('[data-x]'); if (!x) return;
+    if (x.dataset.x === 'no') return m.close();
+    const pw = $('#np', m.root).value.trim();
+    if (pw.length < 4) { $('#me', m.root).textContent = 'Parol kamida 4 belgidan iborat bo\'lsin.'; return; }
+    x.disabled = true;
+    try {
+      await rpc('t_reset_password', { p_token: S.token, p_user: row.id, p_new: pw });
+      m.close();
+      const m2 = openModal(`<h3>Parol o'zgartirildi ✓</h3><p>${esc(row.full_name)} uchun yangi parol:</p>
+        <div class="pwbox">${esc(pw)}</div><p class="muted" style="font-size:.9rem">Bu parolni o'quvchiga bering. Keyinchalik uni ko'rib bo'lmaydi.</p>
+        <div class="btns"><button class="btn" data-x="copy">Nusxalash</button><button class="btn primary" data-x="ok">Yopish</button></div>`);
+      m2.root.addEventListener('click', async e2 => {
+        const y = e2.target.closest('[data-x]'); if (!y) return;
+        if (y.dataset.x === 'copy') { try { await navigator.clipboard.writeText(pw); toast('Nusxalandi'); } catch (_) { toast('Nusxalab bo\'lmadi', true); } }
+        else m2.close();
+      });
+    } catch (e) { x.disabled = false; $('#me', m.root).textContent = errMsg(e); }
+  });
+}
+
+function drawSettings() {
+  $('#tc').innerHTML = `<div class="card"><h3>Sinflar bo'yicha test sozlamalari</h3>
+    <p class="muted">"Test ochiq" o'chirilsa, o'quvchilar yangi test boshlay olmaydi (boshlab qo'ygani davom ettira oladi).
+    Vaqt 0 bo'lsa cheklov yo'q.</p>
+    <div class="tw"><table style="min-width:520px"><thead><tr><th>Sinf</th><th>Savollar</th><th>Test ochiq</th><th>Vaqt (daqiqa)</th><th></th></tr></thead><tbody>
+    ${TR.tests.map(t => `<tr data-g="${t.grade}"><td><b>${t.grade}-sinf</b></td><td>${t.questions} ta</td>
+      <td><input type="checkbox" class="op" ${t.is_open ? 'checked' : ''} style="width:20px;height:20px"></td>
+      <td><input type="number" class="du" min="0" max="600" value="${t.duration_minutes}" style="width:100px;margin:0;padding:6px 8px"></td>
+      <td><button class="btn sm primary">Saqlash</button></td></tr>`).join('')}</tbody></table></div></div>`;
+  $$('#tc tbody button').forEach(b => b.onclick = async () => {
+    const tr = b.closest('tr'), g = +tr.dataset.g;
+    const open = $('.op', tr).checked, dur = parseInt($('.du', tr).value, 10);
+    if (!(dur >= 0 && dur <= 600)) return toast('Vaqt 0 dan 600 gacha bo\'lsin', true);
+    try { await rpc('t_set_test', { p_token: S.token, p_grade: g, p_is_open: open, p_duration: dur }); await loadTeacherData(); toast(`${g}-sinf sozlamasi saqlandi`); }
+    catch (e) { toast(errMsg(e), true); }
+  });
+}
+
+function changeMyPassword() {
+  const m = openModal(`<h3>Parolni o'zgartirish</h3>
+    <label class="f">Joriy parol<input type="password" id="o" autocomplete="current-password"></label>
+    <label class="f">Yangi parol (kamida 8 belgi)<input type="password" id="n" autocomplete="new-password"></label>
+    <label class="f">Yangi parolni takrorlang<input type="password" id="n2" autocomplete="new-password"></label>
+    <div class="err" id="me"></div>
+    <div class="btns"><button class="btn" data-x="no">Bekor qilish</button><button class="btn primary" data-x="yes">Saqlash</button></div>`);
+  m.root.addEventListener('click', async ev => {
+    const x = ev.target.closest('[data-x]'); if (!x) return;
+    if (x.dataset.x === 'no') return m.close();
+    const o = $('#o', m.root).value, n = $('#n', m.root).value, n2 = $('#n2', m.root).value, er = $('#me', m.root);
+    if (n.length < 8) { er.textContent = 'Yangi parol kamida 8 belgidan iborat bo\'lsin.'; return; }
+    if (n !== n2) { er.textContent = 'Yangi parollar bir xil emas.'; return; }
+    x.disabled = true;
+    try { await rpc('app_change_password', { p_token: S.token, p_old: o, p_new: n }); m.close(); toast('Parol o\'zgartirildi'); }
+    catch (e) { x.disabled = false; er.textContent = errMsg(e); }
+  });
+}
+
+function exportCsv() {
+  const rows = filteredRows();
+  const cell = v => { v = String(v ?? ''); return /[";\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+  const head = ['№', 'F.I.SH', 'Sinf', 'Guruh', 'Login', 'Holat', 'Ball', 'Jami', 'Foiz', 'Topshirilgan vaqt'];
+  const lines = [head.join(';')];
+  const ST = { submitted: 'Topshirgan', in_progress: 'Jarayonda', not_started: 'Topshirmagan' };
+  rows.forEach((r, i) => lines.push([i + 1, r.full_name, r.class_name, r.grp || '', r.username, ST[r.status],
+    r.status === 'submitted' ? r.score : '', r.status === 'submitted' ? r.total : '',
+    r.status === 'submitted' ? pct(r.score, r.total) + '%' : '', r.submitted_at ? fmtDate(r.submitted_at) : ''].map(cell).join(';')));
+  const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'informatika_natijalar.csv'; document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500);
+}
+
+init();
+</script>
+</body>
+</html>
